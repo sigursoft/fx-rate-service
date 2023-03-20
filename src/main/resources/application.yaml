@@ -1,0 +1,17 @@
+spring:
+  main:
+    banner-mode: "off"
+  r2dbc:
+    url: r2dbc:h2:mem:///fx?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  data:
+    r2dbc:
+      repositories:
+        enabled: true
+
+server:
+  port: 8081
+
+polygon-gateway:
+  baseUrl: ${POLYGON_GATEWAY_BASE_URL:http://localhost:8080/}
