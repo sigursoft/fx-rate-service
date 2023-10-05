@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS FX_RATE (
+CREATE TABLE IF NOT EXISTS fx_rate (
     id            SERIAL PRIMARY KEY,
     buy_currency  VARCHAR(3) NOT NULL,
     sell_currency VARCHAR(3) NOT NULL,
