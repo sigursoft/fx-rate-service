@@ -13,6 +13,9 @@ spring:
       repositories:
         enabled: true
 
+tasks:
+  enabled: false
+
 server:
   port: 8081
   shutdown: graceful
