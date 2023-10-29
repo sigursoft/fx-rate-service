@@ -20,7 +20,7 @@ public class ExchangeRatesController {
 	private ExchangeRateService exchangeRateService;
 
 	@GetMapping("/exchange-rates")
-	Flux<ExchangeRate> provideExchangeRates() {
+	Flux<ExchangeRate> provideAllExchangeRates() {
 		logger.info("Providing exchange rates");
 		return exchangeRateService.provideExchangeRates().map(ExchangeRate::fromExchangeRateEntity);
 	}

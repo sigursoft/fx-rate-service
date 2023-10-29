@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 @WebFluxTest(ExchangeRatesController.class)
 class ExchangeRatesControllerTest {
 
-
 	@Autowired
 	private WebTestClient webTestClient;
 
