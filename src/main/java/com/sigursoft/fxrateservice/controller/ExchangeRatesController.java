@@ -22,9 +22,7 @@ public class ExchangeRatesController {
 	@GetMapping("/exchange-rates")
 	Flux<ExchangeRate> provideExchangeRates() {
 		logger.info("Providing exchange rates");
-		return exchangeRateService.provideExchangeRates().map(exchangeRateEntity ->
-				new ExchangeRate(exchangeRateEntity.buyCurrency(), exchangeRateEntity.sellCurrency(), exchangeRateEntity.rate(), exchangeRateEntity.createdAt())
-		);
+		return exchangeRateService.provideExchangeRates().map(ExchangeRate::fromExchangeRateEntity);
 	}
 
 	@GetMapping("/exchange-rate/{buyCurrency}/{sellCurrency}/latest")
