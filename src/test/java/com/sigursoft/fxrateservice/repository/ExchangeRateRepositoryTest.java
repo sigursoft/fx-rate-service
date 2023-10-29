@@ -4,6 +4,7 @@ import com.sigursoft.fxrateservice.entity.ExchangeRateEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.MariaDBContainer;
@@ -13,7 +14,7 @@ import org.testcontainers.utility.MountableFile;
 
 import java.math.BigDecimal;
 
-@SpringBootTest
+@DataR2dbcTest
 @Testcontainers
 class ExchangeRateRepositoryTest {
 
