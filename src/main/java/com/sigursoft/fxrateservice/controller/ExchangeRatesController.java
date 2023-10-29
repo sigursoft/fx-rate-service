@@ -30,8 +30,6 @@ public class ExchangeRatesController {
 	@GetMapping("/exchange-rate/{buyCurrency}/{sellCurrency}/latest")
 	Mono<ExchangeRate> provideLatestExchangeRate(@PathVariable("buyCurrency") String buyCurrency, @PathVariable("sellCurrency") String sellCurrency) {
 		logger.info("Providing latest exchange rate for {} and {}", buyCurrency, sellCurrency);
-		return exchangeRateService.provideLatestExchangeRate(buyCurrency, sellCurrency).map(exchangeRateEntity ->
-				new ExchangeRate(exchangeRateEntity.buyCurrency(), exchangeRateEntity.sellCurrency(), exchangeRateEntity.rate(), exchangeRateEntity.createdAt())
-		);
+		return exchangeRateService.provideLatestExchangeRate(buyCurrency, sellCurrency).map(ExchangeRate::fromExchangeRateEntity);
 	}
 }
