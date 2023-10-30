@@ -20,7 +20,6 @@ public abstract class ExchangeRateScheduledTask {
 
 	private static final String PLN = "PLN";
 
-
 	@Autowired
 	private WebClient polygonGatewayClient;
 
@@ -31,13 +30,18 @@ public abstract class ExchangeRateScheduledTask {
 
 	@Scheduled(cron = "0 * * * * *")
 	public void fetchExchangeRates() {
-		var sellSide = currencies().stream().map(currency -> new String[] {currency, PLN}).toList();
-		var buySide = currencies().stream().map(currency -> new String[] {PLN, currency}).toList();
-		var all = new ArrayList<>(sellSide);
-		all.addAll(buySide);
+		var allCombinations = generateAllFxCombinations();
 		try (ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor()) {
-			all.forEach(currencyPair -> executorService.submit(() -> fetchExchangeRate(currencyPair[0], currencyPair[1])));
+			allCombinations.forEach(currencyPair -> executorService.submit(() -> fetchExchangeRate(currencyPair[0], currencyPair[1])));
 		}
+	}
+
+	private ArrayList<String[]> generateAllFxCombinations() {
+		var pnlOnTheSellSide = currencies().stream().map(currency -> new String[] {currency, PLN}).toList();
+		var pnlOnTheBuySide = currencies().stream().map(currency -> new String[] {PLN, currency}).toList();
+		var allCombinations = new ArrayList<>(pnlOnTheSellSide);
+		allCombinations.addAll(pnlOnTheBuySide);
+		return allCombinations;
 	}
 
 	private void fetchExchangeRate(String buyCurrency, String sellCurrency) {
