@@ -5,8 +5,10 @@ import com.sigursoft.fxrateservice.service.ExchangeRateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
@@ -14,9 +16,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Component
-public abstract class ExchangeRateScheduledTask {
-	private static final Logger logger = LoggerFactory.getLogger(ExchangeRateScheduledTask.class);
+@Service
+@ConditionalOnProperty(value = "fx.tasks.enabled", matchIfMissing = true, havingValue = "true")
+public class ExchangeRatesFetchingTask {
+
+	private static final Logger logger = LoggerFactory.getLogger(ExchangeRatesFetchingTask.class);
 
 	private static final String PLN = "PLN";
 
@@ -26,7 +30,8 @@ public abstract class ExchangeRateScheduledTask {
 	@Autowired
 	private ExchangeRateService exchangeRateService;
 
-	protected abstract List<String> currencies();
+	@Value("${fx.currencies}")
+	private List<String> currencies;
 
 	@Scheduled(cron = "0 * * * * *")
 	public void fetchExchangeRates() {
@@ -37,8 +42,8 @@ public abstract class ExchangeRateScheduledTask {
 	}
 
 	private ArrayList<String[]> generateAllFxCombinations() {
-		var pnlOnTheSellSide = currencies().stream().map(currency -> new String[] {currency, PLN}).toList();
-		var pnlOnTheBuySide = currencies().stream().map(currency -> new String[] {PLN, currency}).toList();
+		var pnlOnTheSellSide = currencies.stream().map(currency -> new String[] {currency, PLN}).toList();
+		var pnlOnTheBuySide = currencies.stream().map(currency -> new String[] {PLN, currency}).toList();
 		var allCombinations = new ArrayList<>(pnlOnTheSellSide);
 		allCombinations.addAll(pnlOnTheBuySide);
 		return allCombinations;
