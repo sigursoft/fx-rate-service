@@ -13,8 +13,10 @@ spring:
       repositories:
         enabled: true
 
-tasks:
-  enabled: false
+fx:
+  currencies: USD, EUR
+  tasks:
+    enabled: false
 
 server:
   port: 8081
