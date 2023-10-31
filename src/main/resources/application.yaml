@@ -16,7 +16,7 @@ spring:
 fx:
   currencies: USD, EUR
   tasks:
-    enabled: false
+    enabled: ${FX_TASKS_ENABLED:false}
 
 server:
   port: 8081
