@@ -5,7 +5,7 @@ volumes:
 
 services:
   mariadb:
-    image: "mariadb:10.11.5"
+    image: "mariadb:10.11.6"
     restart: 'always'
     environment:
       MYSQL_ROOT_PASSWORD: password
